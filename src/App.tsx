@@ -10,7 +10,6 @@ function App() {
 
   useEffect(() => {
     setItems(mokData as User[]);
-    window.scrollTo(0, 0);
   }, []);
 
   return (
