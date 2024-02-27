@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className='app'>
-      <CardList items={items} /> // Передаем items как props в CardList
+      <CardList items={items} />
     </div>
   );
 }
