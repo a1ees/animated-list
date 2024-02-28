@@ -8,7 +8,9 @@ interface CardListProps {
 }
 
 const CardList: React.FC<CardListProps> = ({items}) => {
+
   const batchSize = 20;
+  const scrollThreshold = 20;
   const [displayedItems, setDisplayedItems] = useState<User[]>([]);
   const [loaded, setLoaded] = useState(0);
   const [showButton, setShowButton] = useState(true);
@@ -27,7 +29,8 @@ const CardList: React.FC<CardListProps> = ({items}) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const reachedBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight;
+      const reachedBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - scrollThreshold;
+      console.log(reachedBottom)
 
       if (reachedBottom) {
         if (loaded === batchSize) {
@@ -38,8 +41,10 @@ const CardList: React.FC<CardListProps> = ({items}) => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [loaded, showButton, displayedItems.length, items]);
 
   return (
